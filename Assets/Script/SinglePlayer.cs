@@ -104,6 +104,5 @@ public class SinglePlayer : MonoBehaviour
                 break;
             }
         }
-
     }
 }
