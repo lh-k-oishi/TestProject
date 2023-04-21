@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer
 {
     public float fTime { get; private set; }        //現在時間
     public float fStartTime { get; private set; }   //開始時間
@@ -30,15 +30,6 @@ public class Timer : MonoBehaviour
         isStart = false;
     }
 
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     public void Update()
     {
         //スタートしていないならreturn
