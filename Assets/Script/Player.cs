@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     float fSpeed = 0.03f;
 
+
     [SerializeField]
     uint u_playerNum = 0;
 
