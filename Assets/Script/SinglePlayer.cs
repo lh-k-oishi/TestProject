@@ -13,8 +13,6 @@ public class SinglePlayer : MonoBehaviour
     private Vector3 initMoveStartPos = Vector3.zero;        //出現時移動開始位置
     private Vector3 initMoveEndPos = Vector3.zero;          //出現時移動終了位置
 
-    private Timer tmrAppear = new Timer(0, 500);
-
     // Start is called before the first frame update
     void Start()
     {
@@ -24,38 +22,16 @@ public class SinglePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tmrAppear.Update();
-
-        //出現時移動
-        if (tmrAppear.isStart)
-        {
-            Appear();
-        }
         //インプット更新
-        else
-        {
-            Move();
-            Quart();
-        }
+        Move();
+        Quart();
     }
 
+    //初期化
     public void Init(Vector3 initMoveStartPos, Vector3 initMoveEndPos)
     {
         this.initMoveStartPos = initMoveStartPos;
         this.initMoveEndPos = initMoveEndPos;
-
-        tmrAppear.StartTimer();
-    }
-
-
-    //出現
-    private void Appear()
-    {
-        //物理演算とめる
-        GetComponent<Rigidbody>().Sleep();
-
-        //イージングで移動させる
-        transform.position = Easing.GetEaseValue(Easing.EasingType.InBack, initMoveStartPos, initMoveEndPos, tmrAppear);
     }
 
     //移動

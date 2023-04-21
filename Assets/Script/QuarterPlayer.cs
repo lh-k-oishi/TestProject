@@ -16,6 +16,7 @@ public class QuarterPlayer : MonoBehaviour
     private Vector3 initMoveEndPos = Vector3.zero;          //出現時移動終了位置
 
     private Timer tmrAppear = new Timer(0, 500);
+    private Timer tmrUnite = new Timer(0, 500);
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class QuarterPlayer : MonoBehaviour
     void Update()
     {
         tmrAppear.Update();
+        tmrUnite.Update();
 
         //すでに誰かが合体コマンドを押していたらそれに追従する
         if (s_isDestroyed)
@@ -34,10 +36,15 @@ public class QuarterPlayer : MonoBehaviour
             return;
         }
 
-        //出現時移動
+        //出現時更新
         if (tmrAppear.isStart)
         {
             Appear();
+        }
+        //合体時更新
+        else if (tmrUnite.IsStarted())
+        {
+            Uniting();
         }
         //インプット更新
         else
@@ -45,8 +52,6 @@ public class QuarterPlayer : MonoBehaviour
             Move();
             Unite();
         }
-
-        s_sharedPos[playerNum] = transform.position;
     }
 
     public void Init(int playerNum, Vector3 initMoveStartPos, Vector3 initMoveEndPos)
@@ -56,7 +61,7 @@ public class QuarterPlayer : MonoBehaviour
         this.initMoveEndPos = initMoveEndPos;
         s_isDestroyed = false;
 
-        tmrAppear.StartTimer();
+        tmrAppear.ReStartTimer();
     }
 
     //出現
@@ -92,6 +97,8 @@ public class QuarterPlayer : MonoBehaviour
         {
             transform.position += new Vector3(0, 0, -1) * fSpeed;
         }
+
+        s_sharedPos[playerNum] = transform.position;
     }
 
     //合体
@@ -103,8 +110,23 @@ public class QuarterPlayer : MonoBehaviour
         //合体
         if (Input.GetButtonDown(strPlayer + "A"))
         {
+            tmrUnite.StartTimer();
+        }
+    }
+
+    //合体更新処理
+    private void Uniting()
+    {
+        Vector3 moveStart = s_sharedPos[playerNum];
+        Vector3 moveEnd = (s_sharedPos[0] + s_sharedPos[1] + s_sharedPos[2] + s_sharedPos[3]) / 4;
+
+        transform.position = Easing.GetEaseValue(Easing.EasingType.InBack, moveStart, moveEnd, tmrUnite);
+
+        if (tmrUnite.IsEnd())
+        {
+            //SinglePlayer生成
             var gen = Instantiate(pfSinglePlayer);
-            gen.transform.position = (s_sharedPos[0] + s_sharedPos[1] + s_sharedPos[2] + s_sharedPos[3]) / 4;
+            gen.transform.position = moveEnd;
             s_isDestroyed = true;
             Destroy(this.gameObject);
         }

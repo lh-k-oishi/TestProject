@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Timer
@@ -20,16 +21,25 @@ public class Timer
         isLoop = false;
     }
 
-    public Timer (float fStartTime, float fEndTime, bool isLoop = false)
+    /// <summary>
+    /// タイマーの値をセットする
+    /// </summary>
+    /// <param name="start">開始値(ms)</param>
+    /// <param name="end">終了値(ms)</param>
+    /// <param name="isLoop">ループさせるか</param>
+    public Timer (float start, float end, bool isLoop = false)
     {
-        this.fStartTime = fStartTime;
-        this.fEndTime = fEndTime;
+        this.fStartTime = start;
+        this.fEndTime = end;
         this.isLoop = isLoop;
 
         fTime = 0;
         isStart = false;
     }
 
+    /// <summary>
+    /// タイマー更新
+    /// </summary>
     public void Update()
     {
         //スタートしていないならreturn
@@ -71,6 +81,12 @@ public class Timer
         }
     }
 
+    /// <summary>
+    /// タイマーの情報セット
+    /// </summary>
+    /// <param name="start">開始値(ms)</param>
+    /// <param name="end">終了値(ms)</param>
+    /// <param name="isLoop">ループさせるか</param>
     public void SetTimer(float start, float end, bool isLoop)
     {
         fStartTime = start;
@@ -80,25 +96,51 @@ public class Timer
         isStart = false;
     }
 
+    /// <summary>
+    /// タイマーの更新を開始する
+    /// </summary>
     public void StartTimer()
     {
         isStart = true;
     }
 
+    /// <summary>
+    /// タイマーの更新を止める
+    /// </summary>
     public void StopTimer()
     {
         isStart = false;
     }
 
+    /// <summary>
+    /// タイマーの値を開始値に戻す
+    /// </summary>
     public void ResetTimer()
     {
         fTime = fStartTime;
         isStart = false;
     }
 
+    /// <summary>
+    /// タイマーの値を開始値に戻し、スタート
+    /// </summary>
     public void ReStartTimer()
     {
         ResetTimer();
         StartTimer();
+    }
+
+    /// <summary>
+    /// タイマーの値が開始値でないかを返す
+    /// </summary>
+    /// <returns>タイマーの値が開始値でないか</returns>
+    public bool IsStarted()
+    {
+        return fTime != fStartTime;
+    }
+
+    public bool IsEnd()
+    {
+        return fTime == fEndTime;
     }
 }
