@@ -6,120 +6,142 @@ using UnityEngine.InputSystem;
 
 public class QuarterPlayer : MonoBehaviour
 {
-    [SerializeField] private float fSpeed = 0.01f;          //移動スピード
-    [SerializeField] private GameObject pfSinglePlayer;     //単体プレイヤープレハブ
+    [SerializeField] private float fSpeed = 0.01f;                  //移動スピード
 
-    private static Vector3[] s_sharedPos = new Vector3[4];  //共有される4人の位置座標
-    private static bool s_isDestroyed = false;              //誰か1人が合体コマンド押した
+    public static int s_generatedCount { get; private set; } = 0;   //生成されたプレイヤーの数
+    public static Vector3[] s_sharedVel { get; private set; } = new Vector3[4];   //共有する移動方向
+    public static bool[] s_isUnite { get; private set; } = new bool[4];   //共有する合体状況
 
-    private int playerNum = -1;                             //プレイヤー番号
-    private Vector3 initMoveStartPos = Vector3.zero;        //出現時移動開始位置
-    private Vector3 initMoveEndPos = Vector3.zero;          //出現時移動終了位置
+    private int playerNum = -1;                                     //プレイヤー番号
+    private Vector3 moveStartPos = Vector3.zero;                //移動開始位置
+    private Vector3 moveEndPos = Vector3.zero;                  //移動終了位置
 
-    private Timer tmrAppear = new Timer(0, 500);            //出現時タイマー
-    private Timer tmrUnite = new Timer(0, 500);             //合体時タイマー
+    private Timer tmrAppear = new Timer(0, 500);                    //出現時タイマー
+    private Timer tmrUnite = new Timer(0, 500);                     //合体時タイマー
 
-    private InputAction move;                               //移動インプット
-    private InputAction unite;                              //合体インプット
+    private InputAction move;                                       //移動インプット
+    private InputAction uniteAppear;                                      //合体インプット
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        playerNum = s_generatedCount;
+        s_generatedCount++;
+
         var playerInput = GetComponent<PlayerInput>();
         move = playerInput.actions["Move"];
-        unite = playerInput.actions["Unite"];
+        uniteAppear = playerInput.actions["Unite"];
+
+        s_isUnite[playerNum] = true;
+        gameObject.GetComponent<Renderer>().enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         tmrAppear.Update();
         tmrUnite.Update();
 
-        //すでに誰かが合体コマンドを押していたらそれに追従する
-        if (s_isDestroyed)
+        if (s_isUnite[playerNum] == false)
         {
-            Destroy(this.gameObject);
-            return;
+            //出現時更新
+            if (tmrAppear.isStart)
+            {
+                Appearing();
+            }
+            //合体時更新
+            else if (tmrUnite.IsStarted())
+            {
+                Uniting();
+            }
+            //インプット更新
+            else
+            {
+                Move();
+                Unite();
+            }
         }
-
-        //出現時更新
-        if (tmrAppear.isStart)
-        {
-            Appear();
-        }
-        //合体時更新
-        else if (tmrUnite.IsStarted())
-        {
-            Uniting();
-        }
-        //インプット更新
         else
         {
             Move();
-            Unite();
+            Appear();
         }
     }
 
-    public void Init(int playerNum, Vector3 initMoveStartPos, Vector3 initMoveEndPos)
+    //分身しているプレイヤーが3人以下であるか
+    static bool EnableAppear()
     {
-        this.playerNum = playerNum;
-        this.initMoveStartPos = initMoveStartPos;
-        this.initMoveEndPos = initMoveEndPos;
-        s_isDestroyed = false;
+        int count = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            count += s_isUnite[i] == false ? 1 : 0;
+        }
 
-        tmrAppear.ReStartTimer();
+        return count < 3;
     }
 
     //出現
-    private void Appear()
+    void Appear()
+    {
+        if (uniteAppear.ReadValue<float>() > 0f && EnableAppear())
+        {
+            moveStartPos = SinglePlayer.s_sharedPos;
+            if (playerNum == 0)
+            {
+                moveEndPos = moveStartPos + new Vector3(-1.5f, 0, 1.5f);
+            }
+            else if (playerNum == 1)
+            {
+                moveEndPos = moveStartPos + new Vector3(1.5f, 0, 1.5f);
+            }
+            else if (playerNum == 2)
+            {
+                moveEndPos = moveStartPos + new Vector3(-1.5f, 0, -1.5f);
+            }
+            else
+            {
+                moveEndPos = moveStartPos + new Vector3(1.5f, 0, -1.5f);
+            }
+
+            tmrAppear.ReStartTimer();
+            s_isUnite[playerNum] = false;
+            gameObject.GetComponent<Renderer>().enabled = true;
+            //物理演算とめる
+            GetComponent<Rigidbody>().Sleep();
+        }
+    }
+
+    //出現更新処理
+    private void Appearing()
     {
         //物理演算とめる
         GetComponent<Rigidbody>().Sleep();
 
         //イージングで移動させる
-        transform.position = Easing.GetEaseValue(Easing.EasingType.OutCubic, initMoveStartPos, initMoveEndPos, tmrAppear);
+        transform.position = Easing.GetEaseValue(Easing.EasingType.OutCubic, moveStartPos, moveEndPos, tmrAppear);
     }
 
     //移動
     private void Move()
     {
-        ////各プレイヤー番号ごとの操作割り当て
-        //string strPlayer = (playerNum + 1).ToString() + "P_";
+        Vector2 dir = move.ReadValue<Vector2>();
+        s_sharedVel[playerNum] = new Vector3(dir.x, 0, dir.y);
 
-        ////移動
-        //if (Input.GetAxis(strPlayer + "Horizontal") < 0)
-        //{
-        //    transform.position += new Vector3(-1, 0, 0) * fSpeed;
-        //}
-        //else if (Input.GetAxis(strPlayer + "Horizontal") > 0)
-        //{
-        //    transform.position += new Vector3(1, 0, 0) * fSpeed;
-        //}
-        //if (Input.GetAxis(strPlayer + "Vertical") < 0)
-        //{
-        //    transform.position += new Vector3(0, 0, 1) * fSpeed;
-        //}
-        //else if (Input.GetAxis(strPlayer + "Vertical") > 0)
-        //{
-        //    transform.position += new Vector3(0, 0, -1) * fSpeed;
-        //}
-
-        Vector2 moveDir = move.ReadValue<Vector2>();
-        transform.position += new Vector3(moveDir.x, 0, moveDir.y) * fSpeed;
-
-        s_sharedPos[playerNum] = transform.position;
+        if (s_isUnite[playerNum])
+        {
+            transform.position = SinglePlayer.s_sharedPos;
+        }
+        else
+        {
+            transform.position += s_sharedVel[playerNum] * fSpeed;
+        }
     }
 
     //合体
     private void Unite()
     {
-        //各プレイヤー番号ごとの操作割り当て
-        string strPlayer = (playerNum + 1).ToString() + "P_";
-
-        //合体
-        if (unite.ReadValue<float>() > 0f)
+        if (uniteAppear.ReadValue<float>() > 0f)
         {
+            moveStartPos = transform.position;
+            moveEndPos = SinglePlayer.s_sharedPos;
             tmrUnite.StartTimer();
         }
     }
@@ -127,18 +149,13 @@ public class QuarterPlayer : MonoBehaviour
     //合体更新処理
     private void Uniting()
     {
-        Vector3 moveStart = s_sharedPos[playerNum];
-        Vector3 moveEnd = (s_sharedPos[0] + s_sharedPos[1] + s_sharedPos[2] + s_sharedPos[3]) / 4;
-
-        transform.position = Easing.GetEaseValue(Easing.EasingType.InBack, moveStart, moveEnd, tmrUnite);
+        transform.position = Easing.GetEaseValue(Easing.EasingType.InBack, moveStartPos, moveEndPos, tmrUnite);
 
         if (tmrUnite.IsEnd())
         {
-            //SinglePlayer生成
-            var gen = Instantiate(pfSinglePlayer);
-            gen.transform.position = moveEnd;
-            s_isDestroyed = true;
-            Destroy(this.gameObject);
+            gameObject.GetComponent<Renderer>().enabled = false;
+            s_isUnite[playerNum] = true;
+            tmrUnite.ResetTimer();
         }
     }
 }

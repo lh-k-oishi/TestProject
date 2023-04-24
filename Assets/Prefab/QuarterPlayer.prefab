@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fSpeed: 0.01
-  pfSinglePlayer: {fileID: 8533089169339803109, guid: 5373bcf83c22f124eafe2ba20e27fbe5, type: 3}
+  pfSinglePlayer: {fileID: 6035632331244273500, guid: 5373bcf83c22f124eafe2ba20e27fbe5, type: 3}
 --- !u!114 &6991593042344185933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +154,15 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 00ef00c3-6b5b-4f3c-90e0-b7359a5bef0d
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ceca29fe-e550-4997-8438-daab1a235da2
+    m_ActionName: Player/Unite[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/Keyboard/z]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
