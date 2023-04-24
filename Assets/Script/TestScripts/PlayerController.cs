@@ -10,11 +10,15 @@ public class PlayerController : MonoBehaviour
     Transform _transform;
     Move _move;
 
+    [SerializeField] GameObject pfExplosion;
+
     private void Awake()
     {
         TryGetComponent(out _transform);
         TryGetComponent(out _input);
         TryGetComponent(out _move);
+
+        Instantiate(pfExplosion, transform.position, transform.rotation);
     }
     private void OnEnable()
     {
