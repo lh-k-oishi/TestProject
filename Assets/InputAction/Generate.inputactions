@@ -1,0 +1,34 @@
+{
+    "name": "Generate",
+    "maps": [
+        {
+            "name": "Generate",
+            "id": "cfbae569-9a9e-47d1-9e9e-a42e329f2045",
+            "actions": [
+                {
+                    "name": "Generate",
+                    "type": "Button",
+                    "id": "caaa6e6b-04ea-42a3-8741-85fd06ae1c27",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ee92d823-9a40-4326-87ad-fb2484a21c49",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Generate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
