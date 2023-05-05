@@ -3,12 +3,20 @@ using UnityEngine.AI;
 
 public class MoveTo : MonoBehaviour
 {
+    private NavMeshAgent navMeshAgent;
 
-    public Transform goal;
-
-    void Start()
+    private void Update()
     {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = goal.position;
+        MoveToTarget();
+    }
+    public void FindTarget()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        MoveToTarget();
+    }
+    void MoveToTarget()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        navMeshAgent.destination = player.transform.position;
     }
 }

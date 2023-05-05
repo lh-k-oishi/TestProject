@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class Timer
 {
-    public float fTime { get; private set; }        //Œ»İŠÔ
-    public float fStartTime { get; private set; }   //ŠJnŠÔ
-    public float fEndTime { get; private set; }     //I—¹ŠÔ
+    public float fTime { get; private set; }        //ï¿½ï¿½ï¿½İï¿½ï¿½ï¿½
+    public float fStartTime { get; private set; }   //ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
+    public float fEndTime { get; private set; }     //ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    public bool isStart { get; private set; }       //ƒXƒ^[ƒg‚µ‚½‚©EXV’†‚©
-    public bool isLoop { get; private set; }        //ƒ^ƒCƒ}[‚ğƒ‹[ƒv‚³‚¹‚é‚©
+    public bool isStart { get; private set; }       //ï¿½Xï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Eï¿½Xï¿½Vï¿½ï¿½ï¿½ï¿½
+    public bool isLoop { get; private set; }        //ï¿½^ï¿½Cï¿½}ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚©
 
     public Timer()
     {
@@ -22,11 +22,11 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚Ì’l‚ğƒZƒbƒg‚·‚é
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ì’lï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="start">ŠJn’l(ms)</param>
-    /// <param name="end">I—¹’l(ms)</param>
-    /// <param name="isLoop">ƒ‹[ƒv‚³‚¹‚é‚©</param>
+    /// <param name="start">ï¿½Jï¿½nï¿½l(ms)</param>
+    /// <param name="end">ï¿½Iï¿½ï¿½ï¿½l(ms)</param>
+    /// <param name="isLoop">ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚©</param>
     public Timer (float start, float end, bool isLoop = false)
     {
         this.fStartTime = start;
@@ -38,14 +38,14 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[XV
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Xï¿½V
     /// </summary>
     public void Update()
     {
-        //ƒXƒ^[ƒg‚µ‚Ä‚¢‚È‚¢‚È‚çreturn
+        //ï¿½Xï¿½^ï¿½[ï¿½gï¿½ï¿½ï¿½Ä‚ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½return
         if (isStart == false) { return; }
 
-        //³‚Ì•ûŒü‚É‘‚¦‚é‚Æ‚«
+        //ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
         if (fStartTime < fEndTime)
         {
             fTime += Time.deltaTime * 1000;
@@ -62,7 +62,7 @@ public class Timer
                 }
             }
         }
-        //•‰‚Ì•ûŒü‚É‘‚¦‚é‚Æ‚«
+        //ï¿½ï¿½ï¿½Ì•ï¿½ï¿½ï¿½ï¿½É‘ï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½
         else if (fStartTime > fEndTime)
         {
             fTime -= Time.deltaTime * 1000;
@@ -82,11 +82,11 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚Ìî•ñƒZƒbƒg
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ìï¿½ï¿½Zï¿½bï¿½g
     /// </summary>
-    /// <param name="start">ŠJn’l(ms)</param>
-    /// <param name="end">I—¹’l(ms)</param>
-    /// <param name="isLoop">ƒ‹[ƒv‚³‚¹‚é‚©</param>
+    /// <param name="start">ï¿½Jï¿½nï¿½l(ms)</param>
+    /// <param name="end">ï¿½Iï¿½ï¿½ï¿½l(ms)</param>
+    /// <param name="isLoop">ï¿½ï¿½ï¿½[ï¿½vï¿½ï¿½ï¿½ï¿½ï¿½é‚©</param>
     public void SetTimer(float start, float end, bool isLoop)
     {
         fStartTime = start;
@@ -97,7 +97,7 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚ÌXV‚ğŠJn‚·‚é
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½ÌXï¿½Vï¿½ï¿½ï¿½Jï¿½nï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public void StartTimer()
     {
@@ -105,7 +105,7 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚ÌXV‚ğ~‚ß‚é
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½ÌXï¿½Vï¿½ï¿½ï¿½~ï¿½ß‚ï¿½
     /// </summary>
     public void StopTimer()
     {
@@ -113,7 +113,7 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚Ì’l‚ğŠJn’l‚É–ß‚·
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ì’lï¿½ï¿½ï¿½Jï¿½nï¿½lï¿½É–ß‚ï¿½
     /// </summary>
     public void ResetTimer()
     {
@@ -122,7 +122,7 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚Ì’l‚ğŠJn’l‚É–ß‚µAƒXƒ^[ƒg
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ì’lï¿½ï¿½ï¿½Jï¿½nï¿½lï¿½É–ß‚ï¿½ï¿½Aï¿½Xï¿½^ï¿½[ï¿½g
     /// </summary>
     public void ReStartTimer()
     {
@@ -131,9 +131,9 @@ public class Timer
     }
 
     /// <summary>
-    /// ƒ^ƒCƒ}[‚Ì’l‚ªŠJn’l‚Å‚È‚¢‚©‚ğ•Ô‚·
+    /// ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ì’lï¿½ï¿½ï¿½Jï¿½nï¿½lï¿½Å‚È‚ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½
     /// </summary>
-    /// <returns>ƒ^ƒCƒ}[‚Ì’l‚ªŠJn’l‚Å‚È‚¢‚©</returns>
+    /// <returns>ï¿½^ï¿½Cï¿½}ï¿½[ï¿½Ì’lï¿½ï¿½ï¿½Jï¿½nï¿½lï¿½Å‚È‚ï¿½ï¿½ï¿½</returns>
     public bool IsStarted()
     {
         return fTime != fStartTime;

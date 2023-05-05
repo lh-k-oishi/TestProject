@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Plane : MonoBehaviour, ICellObject
 {
-    public const int CELL_NUM = 15;  //ƒ}ƒX”
+    public const int CELL_NUM = 15;  //ï¿½}ï¿½Xï¿½ï¿½
 
-    bool bright = false;            //Œõ‚Á‚Ä‚é‚©
+    bool bright = false;            //ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚é‚©
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,7 @@ public class Plane : MonoBehaviour, ICellObject
     }
 
     /// <summary>
-    /// Œõ‚ç‚¹‚é‚©”Û‚©
+    /// ï¿½ï¿½ï¿½ç‚¹ï¿½é‚©ï¿½Û‚ï¿½
     /// </summary>
     /// <param name="enable"></param>
     public void SetBright(bool enable)
@@ -42,10 +42,10 @@ public class Plane : MonoBehaviour, ICellObject
     }
 
     /// <summary>
-    /// ƒZƒ‹‚ÌˆÊ’u‚©‚çpositionƒZƒbƒg
+    /// ï¿½Zï¿½ï¿½ï¿½ÌˆÊ’uï¿½ï¿½ï¿½ï¿½positionï¿½Zï¿½bï¿½g
     /// </summary>
-    /// <param name="x">‰¡ˆÊ’u</param>
-    /// <param name="y">cˆÊ’u</param>
+    /// <param name="x">ï¿½ï¿½ï¿½Ê’u</param>
+    /// <param name="y">ï¿½cï¿½Ê’u</param>
     public void SetPosFromCell(uint x, uint y)
     {
         Vector3 scale = new Vector3(1, 1, 1);
